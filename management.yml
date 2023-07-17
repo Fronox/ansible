@@ -36,6 +36,7 @@
   roles:
     - citc_user
     - ldap
+    - glauth
     - mysql
     - filesystem
     - slurm
