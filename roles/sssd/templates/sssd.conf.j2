@@ -35,7 +35,6 @@ ldap_default_bind_dn = cn=admin,dc=glauth,dc=com
 ldap_default_authtok = {{ glauth_dm_password if glauth_dm_password is defined else ansible_local.citc.glauth_dm_password }}
 ldap_default_authtok_type = password
 ldap_use_tokengroups = False
-ldap_tls_cacert = /etc/ssl/certs/auth-yourcert.crt
 sudo_provider = none
 ldap_group_member = member
 ldap_schema = rfc2307bis
