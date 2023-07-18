@@ -40,7 +40,7 @@ while true; do
 
   if [ $DIFF = true ]; then
     echo "[+] Merging preconfig file with users config one"
-    cat /etc/glauth/glauth-preconfig.cfg /tmp/offering-users-config.cfg > /app/config/config.cfg
+    cat /etc/glauth/glauth-preconfig.cfg /tmp/offering-users-config.cfg > /etc/glauth/config.cfg
 
     echo "[+] Cleanup"
     mv /tmp/offering-users-config.cfg /tmp/prev-offering-users-config.cfg
