@@ -10,8 +10,9 @@
   copy:
     src: refresh-glauth-config.sh
     dest: /usr/sbin/refresh-glauth-config.sh
+    mode: 755
 
-- name: Create /etc/glauth dir
+- name: Ensure /etc/glauth dir exists
   file:
     path: /etc/glauth/
     state: directory
@@ -22,8 +23,7 @@
     dest: /etc/glauth/glauth-preconfig.cfg
 
 - name: Start glauth config refresh script
-  ansible.builtin.command:
-    cmd: nohup /usr/sbin/refresh-glauth-config.sh &> /var/log/refresh-glauth-config.log &
+  ansible.builtin.shell: nohup /usr/sbin/refresh-glauth-config.sh &> /var/log/refresh-glauth-config.log &
   environment:
     WALDUR_URL: "{{ waldur_url | default('https://waldur.example.com/api/') }}"
     WALDUR_TOKEN: "{{ waldur_token }}"
@@ -31,5 +31,4 @@
     WALDUR_API_VERIFY_TLS: "{{ waldur_api_verify_tls | default('false') }}"
 
 - name: Start glauth
-  ansible.builtin.command:
-    cmd: nohup /usr/bin/glauth -c /app/config/config.cfg &> /var/log/glauth.log &
+  ansible.builtin.shell: nohup /usr/bin/glauth -c /etc/glauth/config.cfg &> /var/log/glauth.log &
