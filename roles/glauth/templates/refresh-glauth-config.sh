@@ -1,12 +1,8 @@
 #!/bin/sh
 set -e
-# Requires:
-# WALDUR_URL
-# WALDUR_TOKEN
-# WALDUR_RESOURCE_UUID
-# WALDUR_API_VERIFY_TLS
 
-VERIFY_TLS="${WALDUR_API_VERIFY_TLS:-false}"
+
+VERIFY_TLS="{{ waldur_api_verify_tls | default('false') | str }}"
 
 if [ $VERIFY_TLS = "false" ]; then
   export NO_CHECK_CERTIFICATE="--no-check-certificate"
@@ -24,8 +20,8 @@ while true; do
   # Creating an empty file to handle a case when a response is empty
   touch /tmp/offering-users-config.cfg
 
-  wget $NO_CHECK_CERTIFICATE --header="Authorization: Token $WALDUR_TOKEN" \
-    ${WALDUR_URL}marketplace-resources/$WALDUR_RESOURCE_UUID/glauth_users_config/ \
+  wget $NO_CHECK_CERTIFICATE --header="Authorization: Token {{ waldur_token }}" \
+    {{ waldur_url }}marketplace-resources/{{ waldur_resource_uuid }}/glauth_users_config/ \
     -O /tmp/offering-users-config.cfg
 
   DIFF=true

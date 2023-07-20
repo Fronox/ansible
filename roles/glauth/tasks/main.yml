@@ -6,8 +6,8 @@
     dest: /usr/bin/glauth
     mode: 755
 
-- name: Copy refresh-glauth-config.sh
-  copy:
+- name: Template refresh-glauth-config.sh
+  template:
     src: refresh-glauth-config.sh
     dest: /usr/sbin/refresh-glauth-config.sh
     mode: 755
@@ -24,11 +24,6 @@
 
 - name: Start glauth config refresh script
   ansible.builtin.shell: nohup /usr/sbin/refresh-glauth-config.sh &> /var/log/refresh-glauth-config.log &
-  environment:
-    WALDUR_URL: "{{ waldur_url | default('https://waldur.example.com/api/') }}"
-    WALDUR_TOKEN: "{{ waldur_token }}"
-    WALDUR_RESOURCE_UUID: "{{ waldur_resource_uuid }}"
-    WALDUR_API_VERIFY_TLS: "{{ waldur_api_verify_tls | default('false') }}"
 
 - name: Start glauth
   ansible.builtin.shell: nohup /usr/bin/glauth -c /etc/glauth/config.cfg &> /var/log/glauth.log &
