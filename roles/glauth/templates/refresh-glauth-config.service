@@ -1,0 +1,10 @@
+[Unit]
+Description=Glauth configuration refresher
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/sbin/refresh-glauth-config.sh &> /var/log/refresh-glauth-config.log
+
+[Install]
+WantedBy=multi-user.target

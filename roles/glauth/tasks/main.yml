@@ -22,8 +22,17 @@
     src: glauth-preconfig.cfg
     dest: /etc/glauth/glauth-preconfig.cfg
 
-- name: Start glauth config refresh script
-  ansible.builtin.shell: nohup /usr/sbin/refresh-glauth-config.sh &> /var/log/refresh-glauth-config.log &
+- name: Create service file for the glauth config refresh script
+  template:
+    src: refresh-glauth-config.service
+    dest: /lib/systemd/system/glauth-refresher.service
+  notify: Reload systemctl
+
+- name: Start refresh script service
+  service:
+    name: glauth-refresher.service
+    state: started
+    enabled: yes
 
 - name: Start glauth
   ansible.builtin.shell: nohup /usr/bin/glauth -c /etc/glauth/config.cfg &> /var/log/glauth.log &
