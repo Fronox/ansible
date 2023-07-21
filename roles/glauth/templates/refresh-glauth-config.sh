@@ -12,7 +12,7 @@ while true; do
   # Creating an empty file to handle a case when a response is empty
   touch /tmp/offering-users-config.cfg
 
-  wget $NO_CHECK_CERTIFICATE --header="Authorization: Token {{ waldur_api_token }}" \
+  wget $NO_CHECK_CERTIFICATE --quiet --header="Authorization: Token {{ waldur_api_token }}" \
     {{ waldur_api_url }}marketplace-resources/{{ waldur_resource_uuid }}/glauth_users_config/ \
     -O /tmp/offering-users-config.cfg
 
