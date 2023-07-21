@@ -5,8 +5,8 @@ Description=Glauth configuration refresher
 User=root
 Group=root
 ExecStart=/usr/sbin/refresh-glauth-config.sh
-StandardOutput=/var/log/refresh-glauth-config.log
-StandardError=/var/log/refresh-glauth-config-error.log
+StandardOutput=file:/var/log/refresh-glauth-config.log
+StandardError=file:/var/log/refresh-glauth-config-error.log
 
 [Install]
 WantedBy=multi-user.target
