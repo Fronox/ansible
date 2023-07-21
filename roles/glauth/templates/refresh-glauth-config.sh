@@ -2,7 +2,7 @@
 set -e
 
 
-VERIFY_TLS="{{ waldur_api_verify_tls | default('false') | str }}"
+VERIFY_TLS="{{ waldur_api_verify_tls | default('false') | string }}"
 
 if [ $VERIFY_TLS = "false" ]; then
   export NO_CHECK_CERTIFICATE="--no-check-certificate"
