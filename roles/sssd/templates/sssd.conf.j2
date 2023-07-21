@@ -32,7 +32,7 @@ ldap_search_base = dc=glauth,dc=com
 ldap_uri = ldap://{{ glauth_hostname }}:3893
 ldap_access_filter = (memberOf=dc=glauth,dc=com)
 ldap_default_bind_dn = cn=admin,dc=glauth,dc=com
-ldap_default_authtok = {{ glauth_dm_password if glauth_dm_password is defined else ansible_local.citc.glauth_dm_password }}
+ldap_default_authtok = {{ glauth_admin_password if glauth_admin_password is defined else ansible_local.citc.glauth_admin_password }}
 ldap_default_authtok_type = password
 ldap_use_tokengroups = False
 sudo_provider = none
