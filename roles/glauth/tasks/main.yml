@@ -5,12 +5,14 @@
     url: https://github.com/glauth/glauth/releases/download/v2.2.0/glauth-linux-amd64
     dest: /usr/bin/glauth
     mode: "775"
+    force: true
 
 - name: Template refresh-glauth-config.sh
   template:
     src: refresh-glauth-config.sh
     dest: /usr/sbin/refresh-glauth-config.sh
     mode: "775"
+    force: true
 
 - name: Ensure /etc/glauth dir exists
   file:
