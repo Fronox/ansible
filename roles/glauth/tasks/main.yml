@@ -28,7 +28,6 @@
   template:
     src: refresh-glauth-config.service
     dest: /lib/systemd/system/glauth-refresher.service
-  notify: Reload systemctl
 
 - name: Start refresh script service
   service:
@@ -36,5 +35,26 @@
     state: started
     enabled: yes
 
-- name: Start glauth
-  ansible.builtin.shell: nohup /usr/bin/glauth -c /etc/glauth/config.cfg &> /var/log/glauth.log &
+- name: Create service file for the glauth
+  template:
+    src: glauth.service
+    dest: /lib/systemd/system/glauth.service
+  notify: Reload systemctl
+
+- name: Start glauth service
+  service:
+    name: glauth.service
+    state: started
+    enabled: yes
+
+- name: Collect system services info
+  service_facts:
+  register: services_state
+
+- name: Check glauth-refresher.service status
+  debug:
+    var: services_state.ansible_facts.services['glauth-refresher.service'].state
+
+- name: Check glauth.service status
+  debug:
+    var: services_state.ansible_facts.services['glauth.service'].state
