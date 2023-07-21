@@ -13,7 +13,7 @@ while true; do
   touch /tmp/offering-users-config.cfg
 
   RESOURCE_UUID=$(wget $NO_CHECK_CERTIFICATE --quiet -O- --header="Authorization: Token {{ waldur_api_token }}" \
-  {{ waldur_api_url }}marketplace-order-items/{{ order_item_uuid }}/ | jq -r ".resource_uuid")
+  {{ waldur_api_url }}marketplace-order-items/{{ waldur_order_item_uuid }}/ | jq -r ".resource_uuid")
 
   if [ $RESOURCE_UUID = "null" ] || [ $RESOURCE_UUID = "" ]; then
     echo "[+] Resource is not created yet, skipping users fetching"
