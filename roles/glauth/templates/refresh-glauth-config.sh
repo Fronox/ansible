@@ -17,6 +17,7 @@ while true; do
 
   if [ $RESOURCE_UUID = "null" ] || [ $RESOURCE_UUID = "" ]; then
     echo "[+] Resource is not created yet, skipping users fetching"
+    /etc/glauth/glauth-preconfig.cfg /tmp/offering-users-config.cfg > /etc/glauth/config.cfg
     continue
   fi
 
