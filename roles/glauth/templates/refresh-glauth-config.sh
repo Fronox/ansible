@@ -12,8 +12,16 @@ while true; do
   # Creating an empty file to handle a case when a response is empty
   touch /tmp/offering-users-config.cfg
 
+  RESOURCE_UUID=$(wget $NO_CHECK_CERTIFICATE --quiet -O- --header="Authorization: Token {{ waldur_api_token }}" \
+  {{ waldur_api_url }}marketplace-order-items/{{ order_item_uuid }}/ | jq -r ".resource_uuid")
+
+  if [ $RESOURCE_UUID = "null" ] || [ $RESOURCE_UUID = "" ]; then
+    echo "[+] Resource is not created yet, skipping users fetching"
+    continue
+  fi
+
   wget $NO_CHECK_CERTIFICATE --quiet --header="Authorization: Token {{ waldur_api_token }}" \
-    {{ waldur_api_url }}marketplace-resources/{{ waldur_resource_uuid }}/glauth_users_config/ \
+    {{ waldur_api_url }}marketplace-resources/$RESOURCE_UUID/glauth_users_config/ \
     -O /tmp/offering-users-config.cfg
 
   DIFF=true
