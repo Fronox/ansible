@@ -4,13 +4,13 @@
   get_url:
     url: https://github.com/glauth/glauth/releases/download/v2.2.0/glauth-linux-amd64
     dest: /usr/bin/glauth
-    mode: 755
+    mode: "775"
 
 - name: Template refresh-glauth-config.sh
   template:
     src: refresh-glauth-config.sh
     dest: /usr/sbin/refresh-glauth-config.sh
-    mode: 755
+    mode: "775"
 
 - name: Ensure /etc/glauth dir exists
   file:
