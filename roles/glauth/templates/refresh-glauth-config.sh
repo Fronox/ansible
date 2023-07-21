@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-
 VERIFY_TLS="{{ waldur_api_verify_tls | default('false') | string }}"
 
 if [ $VERIFY_TLS = "false" ]; then
@@ -9,13 +8,6 @@ if [ $VERIFY_TLS = "false" ]; then
 fi
 
 while true; do
-  # Clean up the log file from the previous run
-  if [ -f /var/log/refresh-glauth-config.log ]; then
-    echo "" > /var/log/refresh-glauth-config.log
-  fi
-
-  export | grep -Ei "waldur|ldap" | grep -Evi "token|password"
-
   echo "[+] Fetching users config file"
   # Creating an empty file to handle a case when a response is empty
   touch /tmp/offering-users-config.cfg
@@ -43,4 +35,3 @@ while true; do
   fi
   sleep 300 # sleep for 5 minutes
 done
-
