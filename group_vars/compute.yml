@@ -17,3 +17,4 @@ mpi_packages:
 monitoring_role: client
 
 ldap_hostname: "{{ ansible_local.citc.ldap_hostname }}"
+glauth_hostname: "{{ ansible_local.citc.ldap_hostname }}"
