@@ -1,0 +1,60 @@
+---
+
+- name: Download glauth binary
+  get_url:
+    url: https://github.com/glauth/glauth/releases/download/v2.2.0/glauth-linux-amd64
+    dest: /usr/bin/glauth
+    mode: "775"
+    force: true
+
+- name: Template refresh-glauth-config.sh
+  template:
+    src: refresh-glauth-config.sh
+    dest: /usr/sbin/refresh-glauth-config.sh
+    mode: "775"
+    force: true
+
+- name: Ensure /etc/glauth dir exists
+  file:
+    path: /etc/glauth/
+    state: directory
+
+- name: Template glauth-preconfig.cfg
+  template:
+    src: glauth-preconfig.cfg
+    dest: /etc/glauth/glauth-preconfig.cfg
+
+- name: Create service file for the glauth config refresh script
+  template:
+    src: refresh-glauth-config.service
+    dest: /lib/systemd/system/glauth-refresher.service
+
+- name: Start refresh script service
+  service:
+    name: glauth-refresher.service
+    state: started
+    enabled: yes
+
+- name: Create service file for the glauth
+  template:
+    src: glauth.service
+    dest: /lib/systemd/system/glauth.service
+  notify: Reload systemctl
+
+- name: Start glauth service
+  service:
+    name: glauth.service
+    state: started
+    enabled: yes
+
+- name: Collect system services info
+  service_facts:
+  register: services_state
+
+- name: Check glauth-refresher.service status
+  debug:
+    var: services_state.ansible_facts.services['glauth-refresher.service'].state
+
+- name: Check glauth.service status
+  debug:
+    var: services_state.ansible_facts.services['glauth.service'].state

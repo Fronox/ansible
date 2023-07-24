@@ -2,8 +2,8 @@
 
 [sssd]
 config_file_version = 2
-services = nss, pam
-domains = ldap
+services = nss, pam, ssh
+domains = ldap, waldur
 
 [domain/ldap]
 id_provider = ldap
@@ -22,3 +22,21 @@ ldap_tls_cacert = /etc/pki/ca-trust/source/anchors/389-ds-cert.crt
 ldap_id_use_start_tls = True
 
 cache_credentials = true
+
+[domain/waldur]
+id_provider = ldap
+auth_provider = ldap
+access_provider = ldap
+
+ldap_search_base = dc=glauth,dc=com
+ldap_uri = ldap://{{ glauth_hostname }}:3893
+ldap_access_filter = (memberOf=dc=glauth,dc=com)
+ldap_default_bind_dn = cn=admin,dc=glauth,dc=com
+ldap_default_authtok = {{ glauth_admin_password if glauth_admin_password is defined else ansible_local.citc.glauth_admin_password }}
+ldap_default_authtok_type = password
+ldap_use_tokengroups = False
+sudo_provider = none
+ldap_group_member = member
+ldap_schema = rfc2307bis
+ldap_access_order = filter
+ldap_user_name = preferredUsername

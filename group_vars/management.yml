@@ -33,3 +33,4 @@ monitoring_role: master
 ldap_dm_password: "{{ lookup('ansible.builtin.password', '/etc/citc/ldapdmpasswordfile', chars=['ascii_letters', 'digits']) }}"
 
 ldap_hostname: "{{ ansible_nodename }}"
+glauth_hostname: "{{ ansible_nodename }}"

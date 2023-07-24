@@ -14,4 +14,12 @@
     path: /etc/ssh/sshd_config
     regexp: '^AddressFamily'
     line: "AddressFamily inet"
+
+- name: Add authorized keys feature
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    block: |
+      AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys
+      AuthorizedKeysCommandUser root
   notify: Restart sshd
