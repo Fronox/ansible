@@ -13,6 +13,13 @@
     remote_src: true
     mode: preserve
 
+- name: Ensure homedirs creates for new users
+  ansible.builtin.lineinfile:
+    dest: /etc/pam.d/system-auth
+    create: yes
+    line: "session     required            pam_mkhomedir.so umask=0077"
+    state: present
+
 - name: Update CA trust anchors
   ansible.builtin.command: update-ca-trust  # noqa no-changed-when
 
