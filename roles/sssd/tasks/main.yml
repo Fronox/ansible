@@ -20,6 +20,9 @@
     line: "session     required            pam_mkhomedir.so umask=0077"
     state: present
 
+- name: For RHEL9 use a different method for creating homedirs
+  ansible.builtin.command: authconfig --enablemkhomedir --update  # noqa no-changed-when
+
 - name: Update CA trust anchors
   ansible.builtin.command: update-ca-trust  # noqa no-changed-when
 
